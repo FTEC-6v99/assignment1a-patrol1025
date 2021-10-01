@@ -9,3 +9,25 @@
 #
 # If the list of students is empty, return an empty dictionary
 # Make sure that you add type hints to the function paramter and return value
+
+from app.src.Student import Student
+from app.src.utils import calculate_avg
+
+
+def calculate_avg_grade(student: list[Student]) ->dict[int, float]: #define function to calculate a student avg grade
+    if len(student)==0: #checks to see if list is empty
+        return {}
+    else:
+        stu_grades:dict[int,float]={}
+        for students in student: #iterate through student objects
+            stu_id: int = students.id #assign student id as key in stu_grades
+            if stu_id in stu_grades.keys(): #if key exists then append value to value list
+                stu_grades.get(stu_id).append(students.grade)
+            else:
+                stu_grades[stu_id]=[students.grade] #if key doesn't exist create a new key and add a value inside a list
+
+        avg_grades:dict[int, float]={}
+        for stu, grades in stu_grades.items(): #iterate through the dictionary and use calculate_avg function to average the values
+            avg_grades[stu]=calculate_avg(grades)
+
+        return avg_grades
